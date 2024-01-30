@@ -16,3 +16,14 @@ it('retrieves season schedule by abbreviated team', function (string $abbr) {
     expect($schedule->games)->not->toBeEmpty();
     expect($game)->toHaveProperties(['gameDate', 'tvBroadcasts', 'awayTeam', 'homeTeam']);
 })->with(['CHI', 'VGK']);
+
+it('retrieves the current league standings', function () {
+    $response = app(NHLApi::class)->standings();
+    $data = json_decode($response->body());
+    $leader = collect($data->standings)->first();
+
+    expect($response->successful())->toBeTrue();
+    expect($response->body())->toBeJson();
+    expect($data->standings)->not->toBeEmpty();
+    expect($leader)->toHaveProperties(['teamName', 'teamLogo', 'wins', 'losses', 'otLosses']);
+});

@@ -13,4 +13,9 @@ class NHLApi
     {
         return Http::get(self::BASE_API_URL."club-schedule-season/$abbr/now");
     }
+
+    public function standings(): Response
+    {
+        return Http::get(self::BASE_API_URL."standings/now");
+    }
 }
