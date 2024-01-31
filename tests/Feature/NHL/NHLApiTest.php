@@ -7,11 +7,20 @@ it('has a base URL', function () {
 });
 
 it('retrieves season schedule by abbreviated team', function (string $abbr) {
-    $schedule = app(NHLApi::class)->scheduleFor($abbr);
-    $game = collect($schedule->games)->first();
+    $fullSchedule = app(NHLApi::class)->fullScheduleFor($abbr);
+    $game = collect($fullSchedule->games)->first();
 
-    expect($schedule->games)->not->toBeEmpty();
+    expect($fullSchedule->games)->not->toBeEmpty();
     expect($game)->toHaveProperties(['gameDate', 'tvBroadcasts', 'awayTeam', 'homeTeam']);
+})->with(['CHI', 'VGK']);
+
+it('retrieves the upcoming schedule by abbreviated team', function (string $abbr) {
+    $fullSchedule = collect(app(NHLApi::class)->fullScheduleFor($abbr)->games);
+    $upcomingSchedule = app(NHLApi::class)->upcomingScheduleFor($abbr);
+    $nextGameDate = $upcomingSchedule->first()->gameDate;
+
+    expect($upcomingSchedule->count())->toBeLessThan($fullSchedule->count());
+    expect(now()->lessThanOrEqualTo($nextGameDate));
 })->with(['CHI', 'VGK']);
 
 it('retrieves the current league standings', function () {

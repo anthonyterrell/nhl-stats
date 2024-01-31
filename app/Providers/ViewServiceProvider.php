@@ -23,7 +23,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Facades\View::composer('welcome', function (View $view) {
-            $view->with('schedule', app(NHLApi::class)->scheduleFor('CHI'));
+            $view->with('schedule', app(NHLApi::class)->upcomingScheduleFor('CHI'));
 
             $view->with('standings', app(NHLApi::class)->standings());
         });

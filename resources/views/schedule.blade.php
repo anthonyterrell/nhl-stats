@@ -1,5 +1,5 @@
 <ul role="list" class="divide-y divide-gray-800">
-@foreach($schedule->games as $game)
+@foreach($schedule as $game)
     <li class="flex justify-between gap-x-6 py-5">
     <div class="flex min-w-0 gap-x-4">
         <img src="{{ $game->awayTeam->logo}}" class="h-16 w-16">
