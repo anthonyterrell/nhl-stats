@@ -6,6 +6,8 @@
 
         <title>Laravel</title>
 
+        <link rel="apple-touch-icon" href="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg">
+
         @vite(['resources/js/app.js'])
     </head>
 
