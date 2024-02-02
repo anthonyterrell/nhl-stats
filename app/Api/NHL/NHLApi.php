@@ -2,7 +2,6 @@
 
 namespace App\Api\NHL;
 
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -29,7 +28,7 @@ class NHLApi
     {
         return Cache::remember('standings', 3600, function () {
             // standings are cached for an hour
-            return json_decode(Http::get(self::BASE_API_URL."standings/now")->body());
+            return json_decode(Http::get(self::BASE_API_URL.'standings/now')->body());
         });
     }
 }
