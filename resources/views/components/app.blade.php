@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name') }}</title>
 
         <link rel="apple-touch-icon" href="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg">
 
