@@ -3,19 +3,19 @@
   <div class="px-4 py-5 sm:p-6">
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($games as $game)
-            <li class="flex justify-between gap-x-6 py-2">
-            <div class="flex min-w-0 gap-x-4">
-        <img src="{{ $game->awayTeam->logo}}" class="h-16 w-16">
-    </div>
+            <li class="flex justify-between gap-x-6 py-1 sm:py-2">
+                <div class="flex min-w-0 gap-x-4">
+                    <img src="{{ $game->awayTeam->logo}}" class="h-12 w-12">
+                </div>
 
-    <div class="flex flex-col items-center justify-center">
-        <p class="text-sm">{{ $game->gameDate }}</p>
-        <p class="text-xs">V.S.</p>
-    </div>
+                <div class="flex flex-col items-center justify-center">
+                    <p class="text-sm font-medium">{{ now()->parse($game->gameDate)->format('M j') }}</p>
+                    <p class="text-xs font-light">V.S.</p>
+                </div>
 
-    <div class="shrink-0 flex flex-col items-end">
-        <img src="{{ $game->homeTeam->logo}}" class="h-16 w-16">
-    </div>
+                <div class="shrink-0 flex flex-col items-end">
+                    <img src="{{ $game->homeTeam->logo}}" class="h-12 w-12">
+                </div>
             </li>
         @endforeach
     </ul>
