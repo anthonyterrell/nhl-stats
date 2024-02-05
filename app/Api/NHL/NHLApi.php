@@ -21,7 +21,11 @@ class NHLApi
     {
         return collect($this->fullScheduleFor($abbr)->games)
             ->filter(fn ($game) => $game->gameDate >= now()->toDateString())
-            ->values();
+            ->values()->map(function ($game) {
+                $game->awayTeam->teamStatistics = $this->statisticsFor($game->awayTeam->abbrev);
+                $game->homeTeam->teamStatistics = $this->statisticsFor($game->homeTeam->abbrev);
+                return $game;
+            });
     }
 
     public function standings()
