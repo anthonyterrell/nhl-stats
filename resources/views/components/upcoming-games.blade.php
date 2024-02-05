@@ -4,8 +4,11 @@
     <ul role="list" class="divide-y divide-gray-200">
         @foreach($games as $game)
             <li class="flex justify-between gap-x-6 py-1 sm:py-2">
-                <div class="flex min-w-0 gap-x-4">
+                <div class="flex flex-col min-w-0 gap-x-4">
                     <img src="{{ $game->awayTeam->logo}}" class="h-12 w-12">
+                    <p class="text-xs">
+                        {{ $game->awayTeam->teamStatistics->wins }}-{{ $game->awayTeam->teamStatistics->losses }}-{{ $game->awayTeam->teamStatistics->otLosses }}
+                    </p>
                 </div>
 
                 <div class="flex flex-col items-center justify-center">
@@ -15,6 +18,10 @@
 
                 <div class="shrink-0 flex flex-col items-end">
                     <img src="{{ $game->homeTeam->logo}}" class="h-12 w-12">
+
+                    <p class="text-xs">
+                        {{ $game->homeTeam->teamStatistics->wins }}-{{ $game->homeTeam->teamStatistics->losses }}-{{ $game->homeTeam->teamStatistics->otLosses }}
+                    </p>
                 </div>
             </li>
         @endforeach
