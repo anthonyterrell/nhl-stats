@@ -31,4 +31,11 @@ class NHLApi
             return json_decode(Http::get(self::BASE_API_URL.'standings/now')->body());
         });
     }
+
+    public function statisticsFor(string $abbr)
+    {
+        return collect($this->standings()->standings)->filter(function ($team) use ($abbr) {
+            return $team->teamAbbrev->default == $abbr;
+        })->first();
+    }
 }

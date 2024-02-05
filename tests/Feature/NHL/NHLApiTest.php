@@ -30,3 +30,9 @@ it('retrieves the current league standings', function () {
     expect($leagueStandings->standings)->not->toBeEmpty();
     expect($leader)->toHaveProperties(['teamName', 'teamLogo', 'wins', 'losses', 'otLosses']);
 });
+
+it('retrieves statistics for a team', function (string $abbr) {
+    $teamStats = app(NHLApi::class)->statisticsFor($abbr);
+
+    expect($teamStats)->toHaveProperties(['teamName', 'teamLogo', 'wins', 'losses', 'otLosses']);
+})->with(['CHI', 'VGK']);
