@@ -1,3 +1,5 @@
+[![Tests](https://github.com/anthonyterrell/nhl-stats/actions/workflows/tests.yml/badge.svg)](https://github.com/anthonyterrell/nhl-stats/actions/workflows/tests.yml)
+
 ## NHL Stats
 
 A quick high-level overview of team and league statistics.
