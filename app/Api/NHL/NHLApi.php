@@ -24,6 +24,7 @@ class NHLApi
             ->values()->map(function ($game) {
                 $game->awayTeam->teamStatistics = $this->statisticsFor($game->awayTeam->abbrev);
                 $game->homeTeam->teamStatistics = $this->statisticsFor($game->homeTeam->abbrev);
+
                 return $game;
             });
     }
