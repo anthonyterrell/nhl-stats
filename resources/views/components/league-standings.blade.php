@@ -4,12 +4,12 @@
             <table class="min-w-full divide-y divide-gray-300">
                 <thead>
                     <tr>
-                        <th scope="col" class=" py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"></th>
-                        <th scope="col" class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900">GP</th>
-                        <th scope="col" class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900">W</th>
-                        <th scope="col" class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900">L</th>
-                        <th scope="col" class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900">OTL</th>
-                        <th scope="col" class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900">PTS</th>
+                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"></th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">GP</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">W</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">L</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">OTL</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">PTS</th>
                     </tr>
                 </thead>
 
