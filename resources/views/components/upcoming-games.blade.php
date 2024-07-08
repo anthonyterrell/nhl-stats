@@ -7,7 +7,7 @@
                 <div class="flex flex-col min-w-0 gap-x-4">
                     <img src="{{ $game->awayTeam->logo}}" class="h-12 w-12">
                     <p class="text-xs">
-                        {{ $game->awayTeam->teamStatistics->wins }}-{{ $game->awayTeam->teamStatistics->losses }}-{{ $game->awayTeam->teamStatistics->otLosses }}
+                        {{ $game->awayTeam->teamStatistics?->wins ?? 0 }}-{{ $game->awayTeam->teamStatistics?->losses ?? 0}}-{{ $game->awayTeam->teamStatistics?->otLosses ?? 0}}
                     </p>
                 </div>
 
@@ -20,7 +20,7 @@
                     <img src="{{ $game->homeTeam->logo}}" class="h-12 w-12">
 
                     <p class="text-xs">
-                        {{ $game->homeTeam->teamStatistics->wins }}-{{ $game->homeTeam->teamStatistics->losses }}-{{ $game->homeTeam->teamStatistics->otLosses }}
+                        {{ $game->homeTeam->teamStatistics?->wins ?? 0 }}-{{ $game->homeTeam->teamStatistics?->losses ?? 0 }}-{{ $game->homeTeam->teamStatistics?->otLosses ?? 0 }}
                     </p>
                 </div>
             </li>
