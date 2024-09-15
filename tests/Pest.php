@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Http;
+
 uses(
     Tests\TestCase::class,
     // Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -42,7 +44,39 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function fakeSeasonSchedule($preseason = false)
 {
-    // ..
+    Http::fake([
+        'club-schedule-season/*' => Http::response(
+            ['games' => [
+                (object) [
+                    'awayTeam' => (object) ['abbrev' => 'VGK'],
+                    'homeTeam' => (object) ['abbrev' => 'CHI'],
+                    'gameDate' => $preseason ? now()->addDays(4): now()->subDay(2)->format('Y-m-d')
+                ],
+                (object) [
+                    'awayTeam' => (object) ['abbrev' => 'VGK'],
+                    'homeTeam' => (object) ['abbrev' => 'CHI'],
+                    'gameDate' => $preseason ? now()->addDays(5): now()->subDay(2)->format('Y-m-d')
+                ],
+
+
+                (object) [
+                    'awayTeam' => (object) ['abbrev' => 'VGK'],
+                    'homeTeam' => (object) ['abbrev' => 'CHI'],
+                    'gameDate' => now()->addDay()->format('Y-m-d')
+                ],
+                (object) [
+                    'awayTeam' => (object) ['abbrev' => 'VGK'],
+                    'homeTeam' => (object) ['abbrev' => 'CHI'],
+                    'gameDate' => now()->addDays(2)->format('Y-m-d')
+                ],
+            ]
+        ]),
+    ]);
+}
+
+function fakePreSeasonSchedule()
+{
+    fakeSeasonSchedule(true);
 }
