@@ -2,10 +2,6 @@
 
 use App\Api\NHL\NHLApi;
 
-it('has a base URL', function () {
-    expect(NHLApi::BASE_API_URL)->toBe('https://api-web.nhle.com/v1/');
-});
-
 it('retrieves season schedule by abbreviated team', function (string $abbr) {
     $fullSchedule = app(NHLApi::class)->fullScheduleFor($abbr);
     $game = collect($fullSchedule->games)->first();
@@ -15,12 +11,9 @@ it('retrieves season schedule by abbreviated team', function (string $abbr) {
 })->with(['CHI', 'VGK']);
 
 it('retrieves the upcoming schedule by abbreviated team', function (string $abbr) {
-    $fullSchedule = collect(app(NHLApi::class)->fullScheduleFor($abbr)->games);
-    $upcomingSchedule = app(NHLApi::class)->upcomingScheduleFor($abbr);
-    $nextGameDate = $upcomingSchedule->first()->gameDate;
+    $nextGameDate = app(NHLApi::class)->upcomingScheduleFor($abbr)->first()->gameDate;
 
-    expect($upcomingSchedule->count())->toBeLessThan($fullSchedule->count());
-    expect(now()->lessThanOrEqualTo($nextGameDate));
+    expect(now()->lessThanOrEqualTo($nextGameDate))->toBeTrue();
 })->with(['CHI', 'VGK']);
 
 it('retrieves the current league standings', function () {

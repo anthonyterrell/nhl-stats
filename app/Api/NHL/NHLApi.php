@@ -7,13 +7,10 @@ use Illuminate\Support\Facades\Http;
 
 class NHLApi
 {
-    public const BASE_API_URL = 'https://api-web.nhle.com/v1/';
-
     public function fullScheduleFor(string $abbr)
     {
-        return cache()->remember('schedule', 86400, function () use ($abbr) {
-            // schedule is cached for a day
-            return json_decode(Http::get(self::BASE_API_URL."club-schedule-season/$abbr/now")->body());
+        return cache()->remember('schedule', config('nhl.api.ttl_schedule'), function () use ($abbr) {
+            return json_decode($this->get("club-schedule-season/$abbr/now"));
         });
     }
 
@@ -31,9 +28,8 @@ class NHLApi
 
     public function standings()
     {
-        return Cache::remember('standings', 3600, function () {
-            // standings are cached for an hour
-            return json_decode(Http::get(self::BASE_API_URL.'standings/now')->body());
+        return Cache::remember('standings', config('nhl.api.ttl_standings'), function () {
+            return json_decode($this->get('standings/now'));
         });
     }
 
@@ -42,5 +38,10 @@ class NHLApi
         return collect($this->standings()->standings)->filter(function ($team) use ($abbr) {
             return $team->teamAbbrev->default == $abbr;
         })->first();
+    }
+
+    private function get(string $path): string
+    {
+        return Http::get(config('nhl.api.url').$path)->body();
     }
 }
