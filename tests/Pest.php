@@ -52,27 +52,26 @@ function fakeSeasonSchedule($preseason = false)
                 (object) [
                     'awayTeam' => (object) ['abbrev' => 'VGK'],
                     'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => $preseason ? now()->addDays(4): now()->subDay(2)->format('Y-m-d')
+                    'gameDate' => $preseason ? now()->addDays(4) : now()->subDay(2)->format('Y-m-d'),
                 ],
                 (object) [
                     'awayTeam' => (object) ['abbrev' => 'VGK'],
                     'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => $preseason ? now()->addDays(5): now()->subDay(2)->format('Y-m-d')
+                    'gameDate' => $preseason ? now()->addDays(5) : now()->subDay(2)->format('Y-m-d'),
                 ],
 
-
                 (object) [
                     'awayTeam' => (object) ['abbrev' => 'VGK'],
                     'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => now()->addDay()->format('Y-m-d')
+                    'gameDate' => now()->addDay()->format('Y-m-d'),
                 ],
                 (object) [
                     'awayTeam' => (object) ['abbrev' => 'VGK'],
                     'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => now()->addDays(2)->format('Y-m-d')
+                    'gameDate' => now()->addDays(2)->format('Y-m-d'),
                 ],
-            ]
-        ]),
+            ],
+            ]),
     ]);
 }
 

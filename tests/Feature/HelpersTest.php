@@ -1,15 +1,14 @@
 <?php
 
 use App\Api\NHL\NHLApi;
-use Illuminate\Support\Facades\Http;
 
-it('can get my teams abbreviation from config', function() {
+it('can get my teams abbreviation from config', function () {
     config(['nhl.team' => 'VGK']);
 
     expect(myTeam())->toBe('VGK');
 });
 
-it('determines if we are in the pre-season', function() {
+it('determines if we are in the pre-season', function () {
     fakePreSeasonSchedule();
 
     $fullSchedule = collect(app(NHLApi::class)->fullScheduleFor(myTeam())->games);
@@ -19,7 +18,7 @@ it('determines if we are in the pre-season', function() {
     expect($fullSchedule->count())->toEqual($upcomingSchedule->count());
 });
 
-it('determines if we are in the regular season', function() {
+it('determines if we are in the regular season', function () {
     fakeSeasonSchedule();
 
     $fullSchedule = collect(app(NHLApi::class)->fullScheduleFor(myTeam())->games);
@@ -28,4 +27,3 @@ it('determines if we are in the regular season', function() {
     expect(inPreSeason())->toBeFalse();
     expect($fullSchedule->count())->toBeGreaterThan($upcomingSchedule->count());
 });
-

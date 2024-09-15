@@ -8,5 +8,5 @@ return [
         'ttl_schedule' => 86400, // 1 day
     ],
 
-    'team' => env('MY_TEAM_ABBREV','CHI'),
+    'team' => env('MY_TEAM_ABBREV', 'CHI'),
 ];

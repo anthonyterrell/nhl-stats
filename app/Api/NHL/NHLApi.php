@@ -40,8 +40,8 @@ class NHLApi
         })->first();
     }
 
-    private function get(string $path): String
+    private function get(string $path): string
     {
-        return Http::get(config('nhl.api.url') . $path)->body();
+        return Http::get(config('nhl.api.url').$path)->body();
     }
 }
