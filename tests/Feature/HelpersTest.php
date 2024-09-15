@@ -3,7 +3,7 @@
 use App\Api\NHL\NHLApi;
 
 it('can get my teams abbreviation from config', function () {
-        config(['nhl.team' => 'VGK']);
+    config(['nhl.team' => 'VGK']);
 
     expect(myTeam())->toBe('VGK');
 });
