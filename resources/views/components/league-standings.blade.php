@@ -31,3 +31,5 @@
         </div>
     </div>
 </div>
+
+<x-legend />
