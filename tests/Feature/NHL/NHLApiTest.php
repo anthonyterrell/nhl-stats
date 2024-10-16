@@ -13,7 +13,7 @@ it('retrieves season schedule by abbreviated team', function (string $abbr) {
 it('retrieves the upcoming schedule by abbreviated team', function (string $abbr) {
     $nextGameDate = app(NHLApi::class)->upcomingScheduleFor($abbr)->first()->gameDate;
 
-    expect(now()->lessThanOrEqualTo($nextGameDate))->toBeTrue();
+    expect(now()->subDay()->setTimezone('America/Chicago')->lessThanOrEqualTo($nextGameDate))->toBeTrue();
 })->with(['CHI', 'VGK']);
 
 it('retrieves the current league standings', function () {

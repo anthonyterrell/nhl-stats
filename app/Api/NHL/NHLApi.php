@@ -17,7 +17,7 @@ class NHLApi
     public function upcomingScheduleFor(string $abbr)
     {
         return collect($this->fullScheduleFor($abbr)->games)
-            ->filter(fn ($game) => $game->gameDate >= now()->toDateString())
+            ->filter(fn ($game) => $game->gameDate >= now()->subDay()->toDateString())
             ->values()->map(function ($game) {
                 $game->awayTeam->teamStatistics = $this->statisticsFor($game->awayTeam->abbrev);
                 $game->homeTeam->teamStatistics = $this->statisticsFor($game->homeTeam->abbrev);
