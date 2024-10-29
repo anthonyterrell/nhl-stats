@@ -19,7 +19,7 @@ class NHLApi
     public function upcomingScheduleFor(string $abbr)
     {
         return collect($this->fullScheduleFor($abbr)->games)
-            ->filter(fn ($game) => !isset($game->gameOutcome))
+            ->filter(fn ($game) => ! isset($game->gameOutcome))
             ->values()->map(function ($game) {
                 $game->startTime = isset($game->startTimeUTC)
                     ? now()->parse($game->startTimeUTC)->setTimezone('America/Chicago')->format('h:m A')
