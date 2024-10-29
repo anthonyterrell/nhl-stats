@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 
 class NHLApi
 {
+    const GAME_TYPE_PRESEASON = 1;
+
     public function fullScheduleFor(string $abbr)
     {
         return cache()->remember('schedule', config('nhl.api.ttl_schedule'), function () use ($abbr) {
@@ -19,7 +21,9 @@ class NHLApi
         return collect($this->fullScheduleFor($abbr)->games)
             ->filter(fn ($game) => !isset($game->gameOutcome))
             ->values()->map(function ($game) {
-                $game->startTime = now()->parse($game->startTimeUTC)->setTimezone('America/Chicago')->format('h:m A');
+                $game->startTime = isset($game->startTimeUTC)
+                    ? now()->parse($game->startTimeUTC)->setTimezone('America/Chicago')->format('h:m A')
+                    : now()->setTimezone('America/Chicago')->format('h:m A');
                 $game->awayTeam->teamStatistics = $this->statisticsFor($game->awayTeam->abbrev);
                 $game->homeTeam->teamStatistics = $this->statisticsFor($game->homeTeam->abbrev);
 
