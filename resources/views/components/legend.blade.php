@@ -1,13 +1,7 @@
-<div class="flex text-xs">
-
-GP
- - Games Started
-W
- - Wins (worth two points)
-L
- - Losses (worth zero points)
-OT
- - OT/Shootout losses (worth one point)
-PTS
- - Points
-</div>
+<ul class="space-y-1 text-xs text-gray-500">
+    <li>GP - Games Played</li>
+    <li>W - Wins (worth two points)</li>
+    <li>L - Losses (worth zero points)</li>
+    <li>OT/OTL - OT/Shootout losses (worth one point)</li>
+    <li>PTS - Points</li>
+</ul>
