@@ -32,8 +32,9 @@ if (! function_exists('inPreSeason')) {
     function inPreSeason()
     {
         return Cache::remember('inPreSeason', 86400, function () {
-            return collect(app(NHLApi::class)->fullScheduleFor(myTeam())->games)->count()
-                == app(NHLApi::class)->upcomingScheduleFor(myTeam())->count();
+            return app(NHLApi::class)->upcomingScheduleFor(myTeam())->filter(
+                fn ($game) => $game->gameType == 1
+            )->isNotEmpty();
         });
     }
 }

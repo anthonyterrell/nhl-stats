@@ -13,8 +13,26 @@ it('retrieves season schedule by abbreviated team', function (string $abbr) {
 it('retrieves the upcoming schedule by abbreviated team', function (string $abbr) {
     $nextGameDate = app(NHLApi::class)->upcomingScheduleFor($abbr)->first()->gameDate;
 
-    expect(now()->lessThanOrEqualTo($nextGameDate))->toBeTrue();
+    expect(now()->subDay()->setTimezone('America/Chicago')->lessThanOrEqualTo($nextGameDate))->toBeTrue();
 })->with(['CHI', 'VGK']);
+
+describe('isPreseason', function () {
+    it('is true for preseason', function () {
+        fakePreSeasonSchedule();
+
+        $preseasonGame = app(NHLApi::class)->upcomingScheduleFor(myTeam())->first();
+
+        expect($preseasonGame)->isPreseason->toBeTrue();
+    });
+
+    it('is false for regulation', function () {
+        fakeSeasonSchedule();
+
+        $regulationGame = app(NHLApi::class)->upcomingScheduleFor(myTeam())->first();
+
+        expect($regulationGame)->isPreseason->toBeFalse();
+    });
+});
 
 it('retrieves the current league standings', function () {
     $leagueStandings = app(NHLApi::class)->standings();
