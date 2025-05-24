@@ -11,6 +11,8 @@ it('retrieves season schedule by abbreviated team', function (string $abbr) {
 })->with(['CHI', 'VGK']);
 
 it('retrieves the upcoming schedule by abbreviated team', function (string $abbr) {
+    fakeSeasonSchedule();
+
     $nextGameDate = app(NHLApi::class)->upcomingScheduleFor($abbr)->first()->gameDate;
 
     expect(now()->subDay()->setTimezone('America/Chicago')->lessThanOrEqualTo($nextGameDate))->toBeTrue();
