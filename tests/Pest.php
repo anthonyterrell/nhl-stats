@@ -1,87 +1,147 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "uses()" function to bind a different classes or traits.
-|
-*/
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
-uses(
-    Tests\TestCase::class,
-    // Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+pest()->extend(Tests\TestCase::class)->in('Feature');
 
-/*
-|--------------------------------------------------------------------------
-| Expectations
-|--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
-*/
-
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Functions
-|--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
-*/
-
-function fakeSeasonSchedule($preseason = false)
+function fakeNHLSchedule(bool $preseason = false): void
 {
-    Http::fake([
-        'club-schedule-season/*' => Http::response(
-            ['games' => [
-                (object) [
-                    'awayTeam' => (object) ['abbrev' => 'VGK'],
-                    'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => $preseason ? now()->addDays(4) : now()->subDay(2)->format('Y-m-d'),
-                    'gameOutcome' => (object) ['winner' => 'VGK'],
-                    'gameType' => $preseason ? 1 : 2,
-                ],
-                (object) [
-                    'awayTeam' => (object) ['abbrev' => 'VGK'],
-                    'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => $preseason ? now()->addDays(5) : now()->subDay(2)->format('Y-m-d'),
-                    'gameOutcome' => (object) ['winner' => 'VGK'],
-                    'gameType' => $preseason ? 1 : 2,
-                ],
+    $gameType = $preseason ? 1 : 2;
+    $yesterday = Carbon::yesterday()->format('Y-m-d');
+    $tomorrow = Carbon::tomorrow()->format('Y-m-d');
+    $nextWeek = Carbon::now()->addWeek()->format('Y-m-d');
 
-                (object) [
-                    'awayTeam' => (object) ['abbrev' => 'VGK'],
-                    'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => now()->addDay()->format('Y-m-d'),
-                    'gameType' => $preseason ? 1 : 2,
+    $pastGame = [
+        'gameDate' => $yesterday,
+        'startTimeUTC' => Carbon::yesterday()->setTime(19, 0)->utc()->toIso8601String(),
+        'gameType' => $gameType,
+        'gameOutcome' => ['lastPeriodType' => 'REG'],
+        'awayTeam' => [
+            'abbrev' => 'VGK',
+            'placeName' => ['default' => 'Vegas'],
+            'logo' => 'https://example.com/vgk.png',
+        ],
+        'homeTeam' => [
+            'abbrev' => 'CHI',
+            'placeName' => ['default' => 'Chicago'],
+            'logo' => 'https://example.com/chi.png',
+        ],
+    ];
+
+    $upcomingGame1 = [
+        'gameDate' => $tomorrow,
+        'startTimeUTC' => Carbon::tomorrow()->setTime(0, 0)->utc()->toIso8601String(),
+        'gameType' => $gameType,
+        'awayTeam' => [
+            'abbrev' => 'CHI',
+            'placeName' => ['default' => 'Chicago'],
+            'logo' => 'https://example.com/chi.png',
+        ],
+        'homeTeam' => [
+            'abbrev' => 'VGK',
+            'placeName' => ['default' => 'Vegas'],
+            'logo' => 'https://example.com/vgk.png',
+        ],
+    ];
+
+    $upcomingGame2 = [
+        'gameDate' => $nextWeek,
+        'startTimeUTC' => Carbon::now()->addWeek()->setTime(2, 0)->utc()->toIso8601String(),
+        'gameType' => $gameType,
+        'awayTeam' => [
+            'abbrev' => 'DET',
+            'placeName' => ['default' => 'Detroit'],
+            'logo' => 'https://example.com/det.png',
+        ],
+        'homeTeam' => [
+            'abbrev' => 'CHI',
+            'placeName' => ['default' => 'Chicago'],
+            'logo' => 'https://example.com/chi.png',
+        ],
+    ];
+
+    Http::fake([
+        '*/club-schedule-season/*/now' => Http::response([
+            'games' => [$pastGame, $upcomingGame1, $upcomingGame2],
+        ]),
+        '*/standings/now' => Http::response([
+            'standings' => [
+                [
+                    'teamAbbrev' => ['default' => 'CHI'],
+                    'teamName' => ['default' => 'Chicago Blackhawks'],
+                    'teamLogo' => 'https://example.com/chi.png',
+                    'gamesPlayed' => 55,
+                    'wins' => 20,
+                    'losses' => 30,
+                    'otLosses' => 5,
+                    'points' => 45,
                 ],
-                (object) [
-                    'awayTeam' => (object) ['abbrev' => 'VGK'],
-                    'homeTeam' => (object) ['abbrev' => 'CHI'],
-                    'gameDate' => now()->addDays(2)->format('Y-m-d'),
-                    'gameType' => $preseason ? 1 : 2,
+                [
+                    'teamAbbrev' => ['default' => 'VGK'],
+                    'teamName' => ['default' => 'Vegas Golden Knights'],
+                    'teamLogo' => 'https://example.com/vgk.png',
+                    'gamesPlayed' => 55,
+                    'wins' => 35,
+                    'losses' => 15,
+                    'otLosses' => 5,
+                    'points' => 75,
                 ],
             ],
-            ]),
+        ]),
     ]);
 }
 
-function fakePreSeasonSchedule()
+function fakePWHLSchedule(): void
 {
-    fakeSeasonSchedule(true);
+    $tomorrow = Carbon::tomorrow()->format('Y-m-d');
+
+    Http::fake([
+        '*lscluster.hockeytech.com*schedule*' => Http::response([
+            'SiteKit' => [
+                'Parameters' => [
+                    [
+                        'date_with_day' => Carbon::tomorrow()->toIso8601String(),
+                        'game_type' => 'Regular Season',
+                        'visiting_team_code' => 'BOS',
+                        'visiting_team_city' => 'Boston',
+                        'visiting_team_logo' => 'https://example.com/bos.png',
+                        'home_team_code' => 'MIN',
+                        'home_team_city' => 'Minnesota',
+                        'home_team_logo' => 'https://example.com/min.png',
+                    ],
+                ],
+            ],
+        ]),
+        '*lscluster.hockeytech.com*standings*' => Http::response([
+            'SiteKit' => [
+                'Parameters' => [
+                    [
+                        'teams' => [
+                            [
+                                'team_code' => 'BOS',
+                                'name' => 'Boston Fleet',
+                                'logo' => 'https://example.com/bos.png',
+                                'games_played' => '20',
+                                'wins' => '15',
+                                'losses' => '3',
+                                'ot_losses' => '2',
+                                'points' => '32',
+                            ],
+                            [
+                                'team_code' => 'MIN',
+                                'name' => 'Minnesota Frost',
+                                'logo' => 'https://example.com/min.png',
+                                'games_played' => '20',
+                                'wins' => '12',
+                                'losses' => '5',
+                                'ot_losses' => '3',
+                                'points' => '27',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
 }
